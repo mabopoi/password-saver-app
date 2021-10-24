@@ -1,4 +1,4 @@
-package com.example.passwordsaver.ui.theme
+package com.example.passwordsaver.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

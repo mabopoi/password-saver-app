@@ -1,4 +1,4 @@
-package com.example.passwordsaver.ui.theme
+package com.example.passwordsaver.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
