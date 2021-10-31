@@ -9,12 +9,19 @@ import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.passwordsaver.R
+import com.example.passwordsaver.presentation.login.components.PinTextField
 
 class LoginFragment : Fragment() {
 
@@ -25,13 +32,30 @@ class LoginFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
+                var pin by remember {
+                    mutableStateOf("")
+                }
+
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Button(onClick = { findNavController().navigate(R.id.login) }) {
-                        Text(text = "Log In")
+                    PinTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        pin = pin,
+                        onPinChange = { pin = it },
+                        label = { Text("Enter your PIN", textAlign = TextAlign.Left) })
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Button(onClick = { findNavController().navigate(R.id.login) }) {
+                            Text(text = "Log In")
+                        }
                     }
                 }
             }
@@ -62,16 +86,19 @@ class LoginFragment : Fragment() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     if (errorCode !in biometricsIgnoredErrors) {
-                        Toast.makeText(this@LoginFragment.context, errString, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@LoginFragment.context, errString, Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    Toast.makeText(this@LoginFragment.context, "Auth succeeded", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginFragment.context, "Auth succeeded", Toast.LENGTH_LONG)
+                        .show()
                 }
 
                 override fun onAuthenticationFailed() {
-                    Toast.makeText(this@LoginFragment.context, "Auth failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginFragment.context, "Auth failed", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         )
