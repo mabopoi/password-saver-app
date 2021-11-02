@@ -22,7 +22,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.passwordsaver.R
 import com.example.passwordsaver.presentation.login.components.PinTextField
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     override fun onCreateView(
