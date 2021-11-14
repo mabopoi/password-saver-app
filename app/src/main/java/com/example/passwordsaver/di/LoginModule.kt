@@ -1,10 +1,9 @@
 package com.example.passwordsaver.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.example.passwordsaver.domain.use_cases.GetPinUseCase
 import com.example.passwordsaver.domain.use_cases.PutPinUseCase
 import com.example.passwordsaver.presentation.login.LoginUseCases
+import com.example.passwordsaver.utils.DataStoreUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +15,8 @@ import javax.inject.Singleton
 class LoginModule {
     @Provides
     @Singleton
-    fun provideLoginUseCases(dataStore: DataStore<Preferences>) = LoginUseCases(
-        getPinUseCase = GetPinUseCase(dataStore),
-        putPinUseCase = PutPinUseCase(dataStore)
+    fun provideLoginUseCases(dataStoreUtil: DataStoreUtil) = LoginUseCases(
+        getPinUseCase = GetPinUseCase(dataStoreUtil),
+        putPinUseCase = PutPinUseCase(dataStoreUtil)
     )
 }

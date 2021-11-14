@@ -1,10 +1,12 @@
 package com.example.passwordsaver.domain.use_cases
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.example.passwordsaver.utils.DataStoreUtil
 import javax.inject.Inject
 
 class GetPinUseCase @Inject constructor(
-    val dataStore: DataStore<Preferences>
+    val dataStore: DataStoreUtil
 ) {
+    suspend operator fun invoke(key: String): String?{
+        return dataStore.get(key)
+    }
 }

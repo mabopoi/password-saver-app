@@ -9,6 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -18,4 +20,8 @@ class AppModule {
     @Provides
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         preferencesDataStore(name = "data-store").getValue(context, String::javaClass)
+
+    @Singleton
+    @Provides
+    fun provideDispatcher(): CoroutineDispatcher = Dispatchers.Main
 }

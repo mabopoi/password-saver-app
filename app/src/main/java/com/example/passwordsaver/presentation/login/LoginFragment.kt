@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.passwordsaver.R
 import com.example.passwordsaver.presentation.login.components.PinTextField
@@ -27,6 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
+    private val viewmodel by viewModels<LoginViewModel>()
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,9 +37,6 @@ class LoginFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                var pin by remember {
-                    mutableStateOf("")
-                }
 
                 Column(
                     modifier = Modifier
@@ -47,8 +47,8 @@ class LoginFragment : Fragment() {
                 ) {
                     PinTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        pin = pin,
-                        onPinChange = { pin = it },
+                        pin = viewmodel.state.value.pin,
+                        onPinChange = { viewmodel.onPinChange(it) },
                         label = { Text("Enter your PIN", textAlign = TextAlign.Left) })
                     Column(
                         modifier = Modifier
@@ -64,8 +64,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         showBiometricPrompt()
     }
 
